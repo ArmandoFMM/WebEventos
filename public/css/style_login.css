@@ -1,0 +1,77 @@
+@CHARSET "UTF-8";
+
+body{
+	background: url(../img/login-background-4.jpg) ;
+}
+
+#loginBox{
+	align-self: center !important;
+	background-color: hsla(4,0%,0%,0.3);
+    border: none;
+    filter: alpha(opacity=60); /* For IE8 and earlier */
+    border-radius: 2px;
+    margin-top: 20%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	width:40%;
+}
+
+.username {
+	margin-top: 20px;
+}
+.form-control {
+	background-color: hsla(0,0%,0%,0.0);
+	color: white;
+	font-weight: 400;
+}
+
+.form-control::-moz-placeholder {
+  color: white;
+  opacity: 1;
+}
+.form-control:-ms-input-placeholder {
+  color: white;
+}
+.form-control::-webkit-input-placeholder {
+  color: white;
+}
+
+.form-control:focus {
+  border-color:#317f31;
+}
+
+.btn-default:focus, .btn-default:active,.btn-default:hover {
+	background-color: #317f31;
+}
+
+.btn-default{
+	background-color: #4CAF50;
+	border: none;
+	width: 100%;
+}
+
+@media ( min-width : 768px) {
+	.container {
+		width: 700px;
+	}
+}
+
+@media ( min-width : 992px) {
+	.container {
+		width: 900px;
+	}
+}
+
+@media ( min-width : 1200px) {
+	.container {
+		width: 1000px;
+	}
+}
+
+@media ( max-width : 980px ) {
+	#loginBox{
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	}
+
+}
