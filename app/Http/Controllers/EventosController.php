@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Evento;
+use App\Foto;
+use App\Local;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+
 
 class EventosController extends Controller
 {
@@ -14,7 +18,7 @@ class EventosController extends Controller
     {
         $eventos = Evento::all();
 
-        return view('eventos.index')->with('eventos', $eventos);
+        return view('eventos.index', compact('eventos'));
 
     }
 
@@ -35,11 +39,32 @@ class EventosController extends Controller
         $evento->descricao = $request->descricao;
 
 
+//        $local = new Local();
+//        $local->nome_local = $request->nome_local;
+//        $local->bairro = $request->bairro;
+//        $local->avenida_rua = $request->avenida_rua;
+//        $local->nome_local = $request->nome_local;
+//        $local->descricao = $request->descricao_local;
+//        $imagem = Request::file('foto');
+//        $extensao =$imagem->getClientOriginalExtension();
+//        Storage::disk('local')->put($imagem->getFilename().'.'.$extensao, File::get($imagem));
+
+
         $user = User::find(1);
 
         $user->eventos()->save($evento);
+
+        $foto = $request->file('foto');
+
+        $foto = new Foto();
+        $foto->nome = $request->file('foto')->getClientOriginalName();
+        $evento->fotos()->save($foto);
+        $evento->fotos()->save($foto);
+
+       // $evento->locals()->save($local);
 //            $inputs = $request->all();
 //            $evento = Evento::create($inputs);
+
 
         return $this::show($evento->id);
     }
@@ -85,5 +110,6 @@ class EventosController extends Controller
 
         return $this::index();
     }
+
 
 }

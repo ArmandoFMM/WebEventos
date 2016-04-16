@@ -22,3 +22,11 @@ Route::get('index',['as' => 'index', 'uses' => 'PagesController@getIndex']);
 Route::get('contact',['as' => 'contact', 'uses' => 'PagesController@getContact']);
 
 Route::resource('evento','EventosController');
+
+Route::resource('local','LocalController');
+
+Route::resource('foto','FotoController');
+
+Route::get('evento/get/{imagem}',[
+    'as' => 'getimagem','uses' => 'EventosController@get'
+]);

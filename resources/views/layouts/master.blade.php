@@ -10,6 +10,7 @@
 
 <head>
     <meta charset="UTF-8" />
+    <link href="{{asset('css/sweetalert.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('css/nivo-lightbox.css')}}" rel="stylesheet"/>
     <link href="{{asset('css/default.css')}}" rel="stylesheet" type="text/css">
@@ -39,9 +40,9 @@
                     <li><a class="active" onclick="parent.location='../index'"><span class="glyphicon glyphicon-home"></span></a></li>
                     <li class="dropdown"><a class="dropbtn">Eventos</a>
                         <div class="dropdown-content">
-                            <a onclick="parent.location='../evento/create'">Registar Evento</a>
-                            <a onclick="parent.location='../evento/'">Visualizar Eventos</a>
-                            <a href="#">Pesquisar Evento</a>
+                            <a onclick="parent.location='../evento/create'">Registar</a>
+                            <a onclick="parent.location='../evento/'">Visualizar</a>
+                            <a href="#">Pesquisar</a>
                         </div></li>
                     <li><a onclick="parent.location='#'">Conta</a></li>
                     <li><a onclick="parent.location='../about'">About Us</a></li>
@@ -83,6 +84,23 @@
 <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/nivo-lightbox.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/sweetalert.min.js')}}"></script>
+<script type="text/javascript">
+    $('button#delete').on('click', function(){
+        swal({
+                    title: "Deseja realmente remover?",
+                    text: "Não poderá recuperar os dados!",         type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Sim",
+                    closeOnConfirm: false
+                },
+                function(){
+                    $("#myform").submit();
+                });
+    })
+
+</script>
 
 </body>
 </html>
