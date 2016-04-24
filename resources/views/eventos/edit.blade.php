@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.admin')
 
 @section('title')
     Editar {{$evento->designacao}}
@@ -11,9 +11,9 @@
                 background-color: hsla(4, 0%, 0%, 0.3);
             }
         </style>
-        <div class="container formContent">
+        <div class="formContent">
             <div class="row">
-                <div class="col-xs-12 col-sm-8 col-md-6 col-lg-9 col-sm-offset-2 col-md-offset-3">
+                <div class="col-xs-8 col-sm-8 col-md-6 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-3 ">
                     {!! Form::model($evento, array('method'=>'patch','route'=>array('evento.update', $evento->id))) !!}
                     <fieldset>
                         <legend>Dados do Evento</legend>
