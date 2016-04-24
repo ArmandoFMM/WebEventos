@@ -4,7 +4,7 @@
     Web Devz 7 - Gestão de Eventos
 @stop
 
-@section('body')
+@section('content')
     <div class="container-caroussel" id="home">
         <div data-rel="lightbox" class="row">
             <div id="myCarousel" class="carousel slide" data-ride="carousel">

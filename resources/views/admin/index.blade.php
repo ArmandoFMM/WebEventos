@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
 @section('title')
-    Eventos
+    DashBoard
 @stop
 
 @section('dir')
-    Eventos
+    Dashboard
 @stop
 
 @section('title2')
-    Eventos
+    Dashboard
 @stop
 
 @section('content')
@@ -23,11 +23,9 @@
         @endif
         </p>
 
+        <div class="container">
 
-        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
-            {!! link_to_route('evento.create', $title = 'Registar', $parameters = null , $attributes = array('class'=>'btn btn-primary glyphicon glyphicon-plus add')) !!}
-        </div>
-        <div class="container-fluid">
+            <h2 class="text-center h2">Eventos</h2>
             <div class="row">
                 @foreach($eventos as $evento)
                     <div class="col-xs-3 evento">
@@ -46,6 +44,26 @@
                         </p>
                     </div>
                 @endforeach
+
+            </div>
+
+
+            <h2 class="text-center h2">Utilizadores</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Função</th>
+                    </thead>
+                    @foreach($users as $user)
+                        <tbody>
+                        <td>{{$user->username}}</td>
+                        <td>{{$user->email}}</td>
+                        <td>{{$user->role->designacao}}</td>
+                         </tbody>
+                    @endforeach
+                </table>
             </div>
 
         </div>

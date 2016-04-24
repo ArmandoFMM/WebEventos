@@ -9,14 +9,15 @@
 <html>
 
 <head>
-    <meta charset="UTF-8" />
-    <link href="{{asset('css/sweetalert.css')}}" rel="stylesheet" type="text/css"/>
+    <meta charset="UTF-8"/>
     <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('css/nivo-lightbox.css')}}" rel="stylesheet"/>
-    <link href="{{asset('css/default.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/sweetalert.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('css/style.css')}}" rel="stylesheet" type="text/css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
     <title>@yield('title')</title>
+
 
 </head>
 
@@ -37,25 +38,46 @@
             </div>
             <nav class="collapse navbar-collapse" id="minhaNav">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a class="active" onclick="parent.location='../index'"><span class="glyphicon glyphicon-home"></span></a></li>
+                    <li><a class="active" href="{{ route('index')}}"><span class="glyphicon glyphicon-home"></span></a>
+                    </li>
                     <li class="dropdown"><a class="dropbtn">Eventos</a>
                         <div class="dropdown-content">
-                            <a onclick="parent.location='../evento/create'">Registar</a>
-                            <a onclick="parent.location='../evento/'">Visualizar</a>
+                            <a href="{{route('evento.index')}}">Visualizar</a>
                             <a href="#">Pesquisar</a>
-                        </div></li>
-                    <li><a onclick="parent.location='#'">Conta</a></li>
-                    <li><a onclick="parent.location='../about'">About Us</a></li>
-                    <li><a onclick="parent.location='../contact'">Contacte-nos</a></li>
+                        </div>
+                    </li>
+                    <li><a href="{{ route('about') }}">Sobre Nós</a></li>
+                    <li><a href="{{ route('contact') }}">Contacte-nos</a></li>
+
+                    <li class="dropdown pull-right">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <div class="glyphicon glyphicon-user">
+                            </div>
+                            @if(Auth::check())
+                            {{Auth::user()->username}}
+                             @endif
+                                <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" class="glyphicon glyphicon-user "> Perfil</a></li>
+                            <li><a href="#" class="glyphicon glyphicon-cog"> Settings</a></li>
+                            @if(Auth::check())
+                            <li>{!! link_to_route('logout', $title = 'Logout',$parameters = null, $attributes = array('class'=>'glyphicon glyphicon-log-out')) !!}</li>
+                            @else
+                                <li>{!! link_to_route('login', $title = 'Login',$parameters = null, $attributes = array('class'=>'glyphicon glyphicon-log-in')) !!}</li>
+                            @endif
+                        </ul>
+                    </li>
                 </ul>
             </nav>
+
+
+
         </div>
     </div>
 </div>
 
 
-@yield('body')
-
+@yield('content')
 
 
 <div class="navbar-static-bottom">
@@ -78,30 +100,10 @@
     <!-- /#footer -->
 </div>
 
-
-
-<script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/nivo-lightbox.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/sweetalert.min.js')}}"></script>
-<script type="text/javascript">
-    $('button#delete').on('click', function(){
-        swal({
-                    title: "Deseja realmente remover?",
-                    text: "Não poderá recuperar os dados!",         type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Sim",
-                    closeOnConfirm: false
-                },
-                function(){
-                    $("#myform").submit();
-                });
-    })
-
-</script>
-
+<script type="text/javascript" src="{{URL::asset('js/jquery-1.12.3.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/custom.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('js/sweetalert.min.js')}}"></script>
 </body>
 </html>
 

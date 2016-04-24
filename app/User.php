@@ -11,8 +11,9 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $table = "users";
     protected $fillable = [
-        'username', 'email', 'password',
+        'username', 'email', 'password', 'telefone', 'role_id'
     ];
 
     /**
@@ -25,12 +26,29 @@ class User extends Authenticatable
     ];
 
 
-    public function participante(){
+    public function participante()
+    {
         return $this->hasOne('App\Participante');
     }
 
-    public function eventos(){
+    public function eventos()
+    {
 
         return $this->hasMany('App\Evento');
     }
+
+
+    public function role()
+    {
+
+        return $this->belongsTo('App\Role');
+    }
+
+    public function setPassWordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
 }
+
+

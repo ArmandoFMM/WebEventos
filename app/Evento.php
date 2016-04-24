@@ -3,13 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Evento extends Model
 {
-    public $timestamps = false;
-    public function fotos(){
+    protected $table = "eventos";
+    protected $fillable = ['designacao','imagem','data','hora_inicio','hora_fim','tipo_evento','estado_evento','descricao','user_id'];
+    
+    public function Imagens(){
 
-        return $this->hasMany('App\Foto');
+        return $this->hasMany('App\Imagem');
     }
 
     public function user(){
@@ -28,6 +31,14 @@ class Evento extends Model
 
     public function participantes(){
         return $this->belongsToMany('App\Participante');
+    }
+
+
+    public function setImagemAttribute($imagem)
+    {
+        $this->attributes['imagem'] = Carbon::now()->second.$imagem->getClientOriginalName();
+        $nome = Carbon::now()->second.$imagem->getClientOriginalName();
+        \Storage::disk('local')->put($nome, \File::get($imagem));
     }
 
 }

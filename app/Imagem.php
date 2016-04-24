@@ -4,9 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Foto extends Model
+class Imagem extends Model
 {
-    public $timestamps = false;
     public function eventos(){
         return $this->belongsTo('App\Evento');
     }

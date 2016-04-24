@@ -334,7 +334,6 @@ input[type=text], select {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    color: red;
 }
 
 .btnEnviar {
@@ -394,6 +393,12 @@ a {
     clear: both;
 }
 
-.descricao {
+.evento {
+    float: left;
+    clear: both;
+}
+
+.evento-v {
+    float: right;
 
 }

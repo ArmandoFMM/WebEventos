@@ -12,21 +12,31 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 Route::get('about', ['as' => 'about', 'uses' => 'PagesController@getAbout']);
 
-Route::get('index',['as' => 'index', 'uses' => 'PagesController@getIndex']);
+Route::get('index', ['as' => 'index', 'uses' => 'PagesController@getIndex']);
 
-Route::get('contact',['as' => 'contact', 'uses' => 'PagesController@getContact']);
+Route::get('contact', ['as' => 'contact', 'uses' => 'PagesController@getContact']);
 
-Route::resource('evento','EventosController');
+Route::get('admin', ['as' => 'admin', 'uses' => 'PagesController@admin']);
 
-Route::resource('local','LocalController');
+Route::get('login', ['as' => 'login', 'uses' => 'PagesController@login']);
 
-Route::resource('foto','FotoController');
+Route::get('signup', ['as' => 'signup', 'uses' => 'PagesController@signup']);
 
-Route::get('evento/get/{imagem}',[
-    'as' => 'getimagem','uses' => 'EventosController@get'
-]);
+Route::get('logout', ['as' => 'logout', 'uses' => 'LogController@logout']);
+
+Route::resource('evento', 'EventosController');
+
+Route::resource('local', 'LocalController');
+
+Route::resource('user','UserController');
+
+Route::resource('log','LogController');
+
+Route::resource('mail','MailController');
+
+

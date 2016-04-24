@@ -3,23 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Evento;
-use App\Foto;
 use App\Local;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Session;
+use Redirect;
 
 
 class EventosController extends Controller
 {
-    public function index()
+    public function __construct()
     {
-        $eventos = Evento::all();
+        $this->middleware('auth');
+        $this->middleware('admin', ['only' => ['update', 'destroy', 'edit', 'create']]);
+    }
 
-        return view('eventos.index', compact('eventos'));
-
+    public function index()
+    {           $eventos = Evento::all();
+        if (Auth::user()->role->designacao == 'admin') {
+            return view('eventos.index', compact('eventos'));
+        }
+        else {
+            return view('eventos.index1', compact('eventos'));
+        }
     }
 
 
@@ -31,48 +39,20 @@ class EventosController extends Controller
 
     public function store(Request $request)
     {
-        $evento = new Evento();
-        $evento->designacao = $request->designacao;
-        $evento->tipo_evento = $request->tipo_evento;
-        $evento->data = $request->data;
-        $evento->hora_inicio = $request->hora_inicio;
-        $evento->descricao = $request->descricao;
+        $request->user_id = 1;
+        $evento = Evento::create($request->all());
+        $evento->locals()->create($request->all());
 
-
-//        $local = new Local();
-//        $local->nome_local = $request->nome_local;
-//        $local->bairro = $request->bairro;
-//        $local->avenida_rua = $request->avenida_rua;
-//        $local->nome_local = $request->nome_local;
-//        $local->descricao = $request->descricao_local;
-//        $imagem = Request::file('foto');
-//        $extensao =$imagem->getClientOriginalExtension();
-//        Storage::disk('local')->put($imagem->getFilename().'.'.$extensao, File::get($imagem));
-
-
-        $user = User::find(1);
-
-        $user->eventos()->save($evento);
-
-        $foto = $request->file('foto');
-
-        $foto = new Foto();
-        $foto->nome = $request->file('foto')->getClientOriginalName();
-        $evento->fotos()->save($foto);
-        $evento->fotos()->save($foto);
-
-       // $evento->locals()->save($local);
-//            $inputs = $request->all();
-//            $evento = Evento::create($inputs);
-
-
-        return $this::show($evento->id);
+        Session::flash('message', 'Evento criado com sucesso');
+        return redirect()->route('evento.show', $evento);
     }
 
     public function show($id)
     {
         $evento = Evento::find($id);
-        return view('eventos.show')->with('evento', $evento);
+        if (Auth::user()->role->designacao == 'admin') {
+            return view('eventos.show')->with('evento', $evento);
+        } else return view('eventos.show1')->with('evento', $evento);
     }
 
     public function edit($id)
@@ -87,29 +67,40 @@ class EventosController extends Controller
     {
         $evento = Evento::find($id);
 
+        //evento
         $evento->designacao = $request->designacao;
         $evento->tipo_evento = $request->tipo_evento;
         $evento->data = $request->data;
+        if ($request->imagem != null) {
+            $evento->imagem = $request->imagem;
+        }
         $evento->hora_inicio = $request->hora_inicio;
         $evento->descricao = $request->descricao;
 
+        //local
+        $local = Local::find($evento->locals()->first()->id);
+        $local->nome_local = $request->nome_local;
+        $local->cidade = $request->cidade;
+        $local->bairro = $request->bairro;
+        $local->avenida_rua = $request->avenida_rua;
+        $local->descricao_local = $request->descricao_local;
+        $local->save();
 
-        $user = User::find(1);
+        $user = User::find(Auth::user()->id);
 
         $user->eventos()->save($evento);
 
-        return $this::index();
+        Session::flash('message', 'Evento actualizado com sucesso');
+        return redirect()->route('evento.index');
 
     }
 
     public function destroy($id)
     {
-//        $evento = Evento::find($id);
-//        $evento->delete();
-        Evento::destroy($id);
-
-        return $this::index();
+        $evento = Evento::find($id);
+        $evento->locals()->detach();
+        $evento->destroy($id);
+        Session::flash('message', 'Evento eliminado com sucesso');
+        return redirect()->route('evento.index');
     }
-
-
 }

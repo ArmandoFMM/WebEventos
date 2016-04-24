@@ -4,7 +4,7 @@
     Sobre nós
 @stop
 
-@section('body')
+@section('content')
     <div id="about-header">
         <div class="container">
             <div class="row">
