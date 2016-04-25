@@ -15,8 +15,8 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth' ,['only'=>['index','update','destroy','edit']]);
-        $this->middleware('admin',['only'=>['index','update','destroy','edit']]);
+        $this->middleware('auth', ['only' => ['index', 'update', 'destroy', 'edit']]);
+        $this->middleware('admin', ['only' => ['index', 'update', 'destroy', 'edit']]);
     }
 
     public function index()
@@ -27,10 +27,11 @@ class UserController extends Controller
 
     public function create()
     {
-
-        $roles = Role::lists('designacao', 'id');
-        return view('users.create', compact('roles'));
-
+        if (Auth::user()->role->designacao == 'admin') {
+            $roles = Role::lists('designacao', 'id');
+            return view('users.create', compact('roles'));
+        }
+        return redirect()->route('index');
     }
 
 
@@ -47,10 +48,9 @@ class UserController extends Controller
             if (
             Auth::attempt(['email' => $loginRequest->email, 'password' => $loginRequest->password])
             ) {
-                return redirect()->route('/');;
+                return redirect()->route('index');;
 
             }
-            return 'ghfhfffh';
         }
 
 
@@ -61,14 +61,14 @@ class UserController extends Controller
 
     }
 
-    public  function edit($id)
+    public function edit($id)
     {
         $user = User::find($id);
         $roles = Role::lists('designacao', 'id');
         return view('users.edit', compact('user', $user), compact('roles', $roles));
     }
 
-    public  function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $user = User::find($id);
         $user->fill($request->all());
